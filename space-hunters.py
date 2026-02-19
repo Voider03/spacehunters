@@ -481,7 +481,9 @@ while running:
             shoot_cooldown=FIRE_RATE
 
         enemy_timer+=1
-        if enemy_timer >= 60:
+        spawn_delay = max(20, 60 - (difficulty_multiplier * 10))
+        if enemy_timer >= spawn_delay:
+
 
           roll = random.random()
 
@@ -655,6 +657,7 @@ while running:
 
 
       screen.blit(medium_font.render(f"Score: {score}",True,WHITE),(10,10))
+      screen.blit(small_font.render(f"Difficulty x{difficulty_multiplier}", True, YELLOW), (10, 40))
       screen.blit(small_font.render("Press T for Shop",True,WHITE),(SCREEN_WIDTH-170,10))
 
 
