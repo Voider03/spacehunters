@@ -19,6 +19,8 @@ GOLD = (255, 215, 0)
 PURPLE = (160, 32, 240)
 GRAY = (128, 128, 128)
 
+difficulty_multiplier = 1
+
 clock = pygame.time.Clock()
 FPS = 60
 
@@ -152,7 +154,7 @@ class Enemy(pygame.sprite.Sprite):
 
     # NORMAL
       if self.enemy_type == "normal":
-          self.rect.y += self.speed
+          self.rect.y += self.speed * difficulty_multiplier
           self.rect.x += math.sin(self.wave_offset + self.rect.y * 0.01) * 2
 
     # KAMIKAZE (homes toward player)
@@ -165,12 +167,13 @@ class Enemy(pygame.sprite.Sprite):
               dx /= distance
               dy /= distance
 
-          self.rect.x += dx * self.speed
-          self.rect.y += dy * self.speed
+          self.rect.x += dx * self.speed * difficulty_multiplier
+          self.rect.y += dy * self.speed * difficulty_multiplier
+
 
     # SHOOTER (strafe + shoot)
       elif self.enemy_type == "shooter":
-        self.rect.x += self.speed
+        self.rect.x += self.speed * difficulty_multiplier
 
         # bounce left/right
         if self.rect.right >= SCREEN_WIDTH or self.rect.left <= 0:
@@ -451,6 +454,17 @@ while running:
 
         keys=pygame.key.get_pressed()
         mouse_buttons=pygame.mouse.get_pressed()
+
+        # ----- DIFFICULTY SCALING -----
+        if score >= 300:
+          difficulty_multiplier = 4
+        elif score >= 200:
+          difficulty_multiplier = 3
+        elif score >= 100:
+          difficulty_multiplier = 2
+        else:
+          difficulty_multiplier = 1
+
 
         if shoot_cooldown>0:
             shoot_cooldown-=1
