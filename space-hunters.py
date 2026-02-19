@@ -456,17 +456,10 @@ while running:
         mouse_buttons=pygame.mouse.get_pressed()
 
         # ----- DIFFICULTY SCALING -----
-        if score >= 400:
-          difficulty_multiplier = 2
-        elif score >= 300:
-          difficulty_multiplier = 1.75
-        elif score >= 200:
-          difficulty_multiplier = 1.5
-        elif score >= 100:
-          difficulty_multiplier = 1.25
+        if score < 100:
+          difficulty_multiplier = 1
         else:
-           difficulty_multiplier = 1
-
+          difficulty_multiplier = (score / 500)+ 1
 
         if shoot_cooldown>0:
             shoot_cooldown-=1
